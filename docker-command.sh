@@ -84,3 +84,30 @@ docker container run --rm --name containername --mount "type=bind,source=/path/t
 
 # Restore backup data to docker volume
 docker container run --rm --name containername --mount "type=bind,source=/path/to/backup,destination=/backup" --mount "type=volume,source=volumename,destination=/data" image:tag bash -c "tar xvf /backup/backup-data.tar.gz"
+
+# Display List of docker network
+docker network ls
+
+# Create docker network
+docker network create --driver drivername networkname
+
+# Delete docker network
+docker network rm networkname
+
+# Create docker container with network 
+docker container create --name containername --network networkname image:tag
+
+# Disconnect docker container form network
+docker network disconnect networkname containername
+
+# Connect docker container to network
+docker network connect networkname containername
+
+# Get information details from docker feature
+docker inspect dockerfeature name
+
+# Delete unused Docker data from docker feature
+docker dockerfeature prune
+
+# Delete all unused Docker data 
+docker system prune
