@@ -38,19 +38,19 @@ docker container logs -f containerid / containername
 docker container exec -i -t containername /bin/bash
 
 # Forwarding ports from host machine to container
-docker container create --name containername --publish porthost:portcontainer image:tag
+docker container create --name containername --publish porthost:portcontainer imagename:tag
 
 # Add environment variables
-docker container create --name mongoexample --publish porthost:portcontainer -env key=value image:tag
+docker container create --name containername --publish porthost:portcontainer --env key=value imagename:tag
 
 # Display statistics of running containers
 docker container stats
 
 # Set container resource limits
-docker container create --name containername --memory memorysize --cpus cpusize --publish porthost:portcontainer image:tag
+docker container create --name containername --memory="memorysize" --cpus="cpusize" --publish porthost:portcontainer imagename:tag
 
 # Perform docker mount binding for folder sharing in the container
-docker container create --name containername --publish porthost:portcontainer --mount "type=bind,source=folder,destination=folder,readonly" image:tag 
+docker container create --name containername --publish porthost:portcontainer --mount "type=bind,source=folder,destination=folder,readonly" imagename:tag 
 
 # Dipslay list of docker volumes
 docker volume ls
@@ -62,7 +62,7 @@ docker volume create volumename
 docker volume rm volumename
 
 # Perform docker mount volume for folder sharing in the container
-docker container create --name containername --publish porthost:portcontainer --mount "type=volume,source=folder,destination=folder" image:tag
+docker container create --name containername --publish porthost:portcontainer --mount "type=volume,source=folder,destination=folder" imagename:tag
 
 # Backup data from docker volume
 /* 
@@ -76,14 +76,14 @@ docker container create --name containername --publish porthost:portcontainer --
 */
 
 # Manual
-docker container create --name containername --mount "type=bind,source=/path/on/host/backup,destination=/backup" --mount "type=volume,source=my-docker-volume,destination=/data" image:tag
+docker container create --name containername --mount "type=bind,source=/path/on/host/backup,destination=/backup" --mount "type=volume,source=my-docker-volume,destination=/data" imagename:tag
 tar cvf /backup/my-volume-backup.tar.gz /data
 
 # Automatic
-docker container run --rm --name containername --mount "type=bind,source=/path/to/backup,destination=/backup" --mount "type=volume,source=volumename,destination=/data" image:tag tar cvf /backup/backup-data.tar.gz /data
+docker container run --rm --name containername --mount "type=bind,source=/path/to/backup,destination=/backup" --mount "type=volume,source=volumename,destination=/data" imagename:tag tar cvf /backup/backup-data.tar.gz /data
 
 # Restore backup data to docker volume
-docker container run --rm --name containername --mount "type=bind,source=/path/to/backup,destination=/backup" --mount "type=volume,source=volumename,destination=/data" image:tag bash -c "tar xvf /backup/backup-data.tar.gz"
+docker container run --rm --name containername --mount "type=bind,source=/path/to/backup,destination=/backup" --mount "type=volume,source=volumename,destination=/data" imagename:tag bash -c "tar xvf /backup/backup-data.tar.gz"
 
 # Display List of docker network
 docker network ls
@@ -95,9 +95,9 @@ docker network create --driver drivername networkname
 docker network rm networkname
 
 # Create docker container with network 
-docker container create --name containername --network networkname image:tag
+docker container create --name containername --network networkname imagename:tag
 
-# Disconnect docker container form network
+# Disconnect docker container from network
 docker network disconnect networkname containername
 
 # Connect docker container to network
