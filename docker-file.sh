@@ -25,10 +25,6 @@ ADD path/to/source-file path/to/destination-file
 # Copy file to docker image
 COPY path/to/source-file path/to/destination-fike
 
-# Ignore selected file (.dockerignore)
-folder/*.matcher
-folder/subfoler
-
 # To specify the port that will be used to access docker container
 EXPOSE PORT
 
@@ -44,8 +40,9 @@ WORKDIR /path
 # Define build-time variable (only available during docker image build)
 ARG key=value
 
-# Switch to specific user
-
+# Ignore selected file (.dockerignore)
+folder/*.matcher
+folder/subfoler
 
 # Define health check for docker container
 HEALTHCHECK [OPTIONS] CMD command
