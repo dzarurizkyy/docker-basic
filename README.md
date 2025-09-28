@@ -18,7 +18,7 @@ This repository contains examples of **basic Docker commands**, how to write a *
 
 * 📘 **Docker Basics**
 
-  Contains examples of **common Docker commands**
+  Contains examples of common Docker commands, such as:
 
   ```bash
   # Display running containers
@@ -33,7 +33,7 @@ This repository contains examples of **basic Docker commands**, how to write a *
   
 * 📗 **Dockerfile** 
 
-  Shows how to build custom images with Dockerfile
+  Shows how to build custom images with Dockerfile, including:
 
   ```dockerfile
   # Use base image
@@ -50,7 +50,7 @@ This repository contains examples of **basic Docker commands**, how to write a *
   
 * 📙 **Docker Compose**
 
-  Demonstrates how to manage multiple services using **Docker Compose**
+  Demonstrates how to manage multiple services using Docker Compose, such as:
 
   ```yaml
   version: "3.8"
