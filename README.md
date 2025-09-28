@@ -67,7 +67,7 @@ This repository contains examples of **basic Docker commands**, how to write a *
         POSTGRES_DB: mydb
   ```
 
-## 📚 References
+## 📌 References
 * [Udemy](https://www.udemy.com/course/docker-pemula)
 
 
