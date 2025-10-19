@@ -1,4 +1,4 @@
-# Docker Basic 🐳
+# Study Docker 🐳
 
 This repository contains examples of **basic Docker commands**, how to write a **Dockerfile**, and how to use **Docker Compose**.
 
