@@ -4,6 +4,17 @@ A comprehensive guide to mastering Docker fundamentals through hands-on examples
 
 ---
 
+## 📋 Table of Contents
+
+- [Case Study 1: Running a Simple Web Application](#-case-study-1-running-a-simple-web-application-nginx)
+- [Case Study 2: Storing Application Data Using Volumes](#-case-study-2-storing-application-data-using-volumes)
+- [Case Study 3: Backup & Restore Data from Volume](#-case-study-3-backup--restore-data-from-volume)
+- [Case Study 4: Connecting Two Containers (Network)](#-case-study-4-connecting-two-containers-network)
+- [Case Study 5: Custom Container with Resource Limits](#-case-study-5-custom-container-with-resource-limits)
+- [Case Study 6: Maintenance and Cleanup](#-case-study-6-maintenance-and-cleanup)
+
+---
+
 ## 🧩 CASE STUDY 1: Running a Simple Web Application (Nginx)
 
 ### 📘 Objective
