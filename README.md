@@ -1,7 +1,6 @@
 # Study Docker 🐳
 
-This repository contains examples of **basic Docker commands**, how to write a **Dockerfile**, and how to use **Docker Compose**.
-
+This repository contains examples of basic Docker commands, how to write a Dockerfile, and how to use Docker Compose. It also includes hands-on exercises and practical scenarios to practice and strengthen your Docker skills.
 
 ## Installation 🔧
 
