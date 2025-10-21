@@ -294,7 +294,7 @@ Creating and using non-root users in Docker containers for better security.
   Example:
   
   ```dockerfile
-  RUN addgroup -S appgroup
+  RUN addgroup -S devteam
   ```
 
 - **Step 2: Create new user and assign to group**
@@ -311,7 +311,7 @@ Creating and using non-root users in Docker containers for better security.
   Example:
   
   ```dockerfile
-  RUN adduser -S -D -h /app appuser appgroup
+  RUN adduser -S -D -h /app johndoe devteam
   ```
 
 - **Step 3: Change ownership of working directory**
@@ -323,7 +323,7 @@ Creating and using non-root users in Docker containers for better security.
   Example:
   
   ```dockerfile
-  RUN chown -R appuser:appgroup /app
+  RUN chown -R johndoe:devteam /app
   ```
 
 - **Step 4: Switch to new user**
@@ -335,7 +335,7 @@ Creating and using non-root users in Docker containers for better security.
   Example:
   
   ```dockerfile
-  USER appuser
+  USER johndoe
   ```
 
 - **Complete example:**
@@ -346,8 +346,8 @@ Creating and using non-root users in Docker containers for better security.
   WORKDIR /app
   
   # Create group and user
-  RUN addgroup -S appgroup && \
-      adduser -S -D -h /app appuser appgroup
+  RUN addgroup -S johndoe && \
+      adduser -S -D -h /app johndoe devteam
   
   # Copy application files
   COPY package*.json ./
@@ -356,10 +356,10 @@ Creating and using non-root users in Docker containers for better security.
   COPY . .
   
   # Change ownership
-  RUN chown -R appuser:appgroup /app
+  RUN chown -R johndoe:devteam /app
   
   # Switch to non-root user
-  USER appuser
+  USER johndoe
   
   EXPOSE 3000
   CMD ["npm", "start"]
@@ -385,89 +385,6 @@ FROM alpine:3
 WORKDIR /app/
 COPY --from=builder /app/main ./
 CMD ["/app/main"]
-```
-
-**Complete example with Node.js:**
-
-```dockerfile
-# Stage 1: Dependencies and build
-FROM node:18-alpine AS builder
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy source code
-COPY . .
-
-# Build application
-RUN npm run build
-
-# Stage 2: Production runtime
-FROM node:18-alpine
-
-WORKDIR /app
-
-# Copy only necessary files from builder
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
-
-# Create non-root user
-RUN addgroup -S appgroup && \
-    adduser -S -D -h /app appuser appgroup && \
-    chown -R appuser:appgroup /app
-
-USER appuser
-
-EXPOSE 3000
-
-CMD ["node", "dist/index.js"]
-```
-
-**Complete example with Go:**
-
-```dockerfile
-# Stage 1: Build
-FROM golang:1.21-alpine AS builder
-
-WORKDIR /app
-
-# Copy go mod files
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Copy source code
-COPY . .
-
-# Build binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o main .
-
-# Stage 2: Runtime
-FROM alpine:3.18
-
-WORKDIR /app
-
-# Install ca-certificates for HTTPS
-RUN apk --no-cache add ca-certificates
-
-# Copy binary from builder
-COPY --from=builder /app/main ./
-
-# Create non-root user
-RUN addgroup -S appgroup && \
-    adduser -S -D -h /app appuser appgroup && \
-    chown -R appuser:appgroup /app
-
-USER appuser
-
-EXPOSE 8080
-
-CMD ["./main"]
 ```
 
 ---
@@ -560,17 +477,6 @@ npm-debug.log
 .env.local
 .env.*.local
 
-# Build output
-dist
-build
-*.log
-
-# IDE files
-.vscode
-.idea
-*.swp
-*.swo
-
 # Documentation
 README.md
 docs/
@@ -579,12 +485,6 @@ docs/
 test/
 *.test.js
 __tests__/
-
-# Docker files
-Dockerfile
-docker-compose.yml
-.dockerignore
-```
 
 ---
 
@@ -607,37 +507,3 @@ docker-compose.yml
 - Use multi-stage builds to separate build and runtime dependencies
 - Minimize image size by removing unnecessary files
 - Use alpine-based images when possible
-
-**Example of optimized Dockerfile:**
-
-```dockerfile
-FROM node:18-alpine AS builder
-
-WORKDIR /app
-
-# Cache dependencies
-COPY package*.json ./
-RUN npm ci --only=production
-
-# Copy source
-COPY . .
-RUN npm run build
-
-FROM node:18-alpine
-
-WORKDIR /app
-
-# Copy only production files
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-
-# Security: non-root user
-RUN addgroup -S appgroup && \
-    adduser -S -D -h /app appuser appgroup && \
-    chown -R appuser:appgroup /app
-
-USER appuser
-
-EXPOSE 3000
-CMD ["node", "dist/index.js"]
-```
