@@ -486,6 +486,8 @@ test/
 *.test.js
 __tests__/
 
+```
+
 ---
 
 ## 💡 Best Practices
