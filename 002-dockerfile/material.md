@@ -346,7 +346,7 @@ Creating and using non-root users in Docker containers for better security.
   WORKDIR /app
   
   # Create group and user
-  RUN addgroup -S johndoe && \
+  RUN addgroup -S devteam && \
       adduser -S -D -h /app johndoe devteam
   
   # Copy application files
